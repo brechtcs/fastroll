@@ -1,0 +1,44 @@
+{
+  "name": "fastroll",
+  "version": "1.0.0",
+  "description": "Rollup modules without configuration",
+  "bin": {
+    "fastroll": "./bin"
+  },
+  "scripts": {
+    "test": "standard"
+  },
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^8.1.0",
+    "rollup": "^2.18.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
+    "stdarg": "^2.0.0",
+    "stdopt": "^13.0.0",
+    "stdrun": "^6.0.0"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brechtcs/fastroll.git"
+  },
+  "keywords": [
+    "rollup",
+    "browserify",
+    "commonjs",
+    "node",
+    "resolve",
+    "modules",
+    "bundle"
+  ],
+  "author": "Brecht Savelkoul <brecht.savelkoul@alumni.lse.ac.uk>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/brechtcs/fastroll/issues"
+  },
+  "homepage": "https://github.com/brechtcs/fastroll#readme"
+}

@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+
+var { Args } = require('stdarg')
+var { list, string } = require('stdopt')
+var { nodeResolve } = require('@rollup/plugin-node-resolve')
+var { rollup } = require('rollup')
+var { run, text } = require('stdrun')
+var builtins = require('rollup-plugin-node-builtins')
+var cjs = require('@rollup/plugin-commonjs')
+var globals = require('rollup-plugin-node-globals')
+var json = require('@rollup/plugin-json')
+
+var cmd = new Args()
+cmd.use(['output', 'o'], 'Output bundle target file', string)
+cmd.use(['format', 'f'], 'Format to use for output bundle', string)
+cmd.use(['name', 'n'], 'Name of the bundle export', string)
+cmd.use(['exclude', 'e'], 'External module(s) to exclude from bundle', list.of(string))
+cmd.use(['mode', 'm'], 'Export mode to use for bundle', string)
+cmd.use(['help', 'h'], 'Display command help information')
+
+async function fastroll () {
+  var input = Array.from(arguments)
+  var opts = cmd.parse(input)
+
+  if (opts.help) {
+    return cmd.help().map(text)
+  }
+
+  var exports = opts.mode || 'named'
+  var external = opts.exclude
+  var file = opts.output
+  var format = opts.format || 'es'
+  var name = opts.name
+
+  var mainFields = ['module', 'browser', 'main']
+  var bundler = await rollup({
+    input,
+    external,
+    plugins: [
+      cjs(),
+      json(),
+      nodeResolve({ mainFields }),
+      builtins(),
+      globals()
+    ]
+  })
+
+  if (!file) {
+    var results = await bundler.generate({ format, name, exports })
+    return results.output[0].code
+  }
+
+  await bundler.write({ file, format, name, exports })
+}
+
+run(fastroll)
