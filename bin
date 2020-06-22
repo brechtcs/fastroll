@@ -33,13 +33,14 @@ async function fastroll () {
   var name = opts.name
 
   var mainFields = ['module', 'browser', 'main']
+  var preferBuiltins = false
   var bundler = await rollup({
     input,
     external,
     plugins: [
       cjs(),
       json(),
-      nodeResolve({ mainFields }),
+      nodeResolve({ mainFields, preferBuiltins }),
       builtins(),
       globals()
     ]
